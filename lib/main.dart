@@ -1,25 +1,27 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'screens/login_screen.dart'; 
 
 void main() {
   runApp(const MiApp());
 }
 
 class MiApp extends StatelessWidget {
-  const MiApp({Key? key}) : super(key: key);
+  const MiApp({super.key});
 
   @override
+    @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Encuesta por Secciones',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const PaginaEncuesta(),
+      debugShowCheckedModeBanner: false,
+      title: 'Login App',
+      home: LoginScreen(), // Muestra la pantalla de Login
     );
   }
 }
 
 class PaginaEncuesta extends StatefulWidget  {
-  const PaginaEncuesta({Key? key}) : super(key: key);
+  const PaginaEncuesta({super.key});
 
   @override
   State<PaginaEncuesta> createState() => _PaginaEncuestaState();
@@ -27,47 +29,7 @@ class PaginaEncuesta extends StatefulWidget  {
 
 class _PaginaEncuestaState extends State<PaginaEncuesta> {
   /// JSON de ejemplo (en un caso real podrías cargarlo de assets o de una API).
-  final String _jsonEncuesta = """
-  {
-    "titulo": "Encuesta por Secciones",
-    "secciones": [
-      {
-        "titulo": "Información Personal",
-        "campos": [
-          {
-            "tipo": "text",
-            "etiqueta": "Nombre",
-            "placeholder": "Ingresa tu nombre",
-            "required": true
-          },
-          {
-            "tipo": "number",
-            "etiqueta": "Edad",
-            "placeholder": "Ingresa tu edad",
-            "required": false
-          }
-        ]
-      },
-      {
-        "titulo": "Preferencias",
-        "campos": [
-          {
-            "tipo": "dropdown",
-            "etiqueta": "Género de música favorito",
-            "opciones": ["Rock", "Pop", "Reggaetón", "Clásica"],
-            "required": true
-          },
-          {
-            "tipo": "text",
-            "etiqueta": "Cantante o banda favorita",
-            "placeholder": "Ingresa un nombre",
-            "required": false
-          }
-        ]
-      }
-    ]
-  }
-  """;
+  final String _jsonEncuesta = encuesta.json;
 
   /// Aquí almacenaremos el JSON original parseado.
   Map<String, dynamic>? _jsonOriginal;
