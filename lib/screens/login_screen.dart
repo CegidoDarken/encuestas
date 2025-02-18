@@ -1,7 +1,9 @@
-import 'package:encuestas/main.dart';
+import 'package:encuestas/screens/encuesta_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

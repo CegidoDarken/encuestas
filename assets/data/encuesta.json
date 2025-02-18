@@ -1,0 +1,229 @@
+{
+  "titulo": "Encuesta para recoger información",
+  "secciones": [
+    {
+      "titulo": "Sección 1: Datos Generales",
+      "campos": [
+        {
+          "tipo": "text",
+          "etiqueta": "Nombre",
+          "placeholder": "Ingrese su nombre",
+          "required": true
+        },
+        {
+          "tipo": "number",
+          "etiqueta": "Edad",
+          "placeholder": "Ingrese su edad",
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Género",
+          "opciones": ["Masculino", "Femenino", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Nivel de Estudio",
+          "opciones": ["Primaria", "Secundaria", "Universitaria", "Postgrado"],
+          "required": true
+        },
+        {
+          "tipo": "datetime",
+          "etiqueta": "Fecha de Nacimiento",
+          "placeholder": "Seleccione la fecha",
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Estado Civil",
+          "opciones": ["Soltero", "Casado", "Divorciado", "Viudo"],
+          "required": true
+        }
+      ]
+    },
+    {
+      "titulo": "Sección 2: Opiniones sobre Problemas Locales",
+      "campos": [
+        {
+          "tipo": "radio",
+          "etiqueta": "Reside en esta ciudad?",
+          "opciones": ["Sí", "No"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Cual cree usted que es el principal problema de Babahoyo?",
+          "opciones": ["Contaminación", "Tráfico", "Falta de servicios", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Quién cree usted que es el principal responsable de los problemas más importantes de Babahoyo?",
+          "opciones": ["Gobierno", "Empresas", "Ciudadanos", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Cual es el principal problema de su barrio?",
+          "opciones": ["Seguridad", "Infraestructura", "Limpieza", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Cual es el principal problema de usted y de su familia?",
+          "opciones": ["Economía", "Salud", "Educación", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Podríamos mejorar algo de la campana?",
+          "opciones": ["Sí", "No"],
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Quién cree usted que es el principal responsable de su situación económica personal?",
+          "opciones": ["Gobierno", "Empresa", "Familia", "Otro"],
+          "required": true
+        }
+      ]
+    },
+    {
+      "titulo": "Sección 3: Servicios y Condiciones de Vida",
+      "campos": [
+        {
+          "tipo": "text",
+          "etiqueta": "¿Cómo se siente usted con los servicios y condiciones de vida en Babahoyo?",
+          "placeholder": "Describa su opinión",
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Servicio de luz o energía eléctrica",
+          "opciones": ["Bueno", "Regular", "Malo"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Atención de Salud Pública",
+          "opciones": ["Buena", "Regular", "Mala"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Servicio de Agua Potable",
+          "opciones": ["Bueno", "Regular", "Malo"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Estado de las calles, pavimentación e infraestructura vial",
+          "opciones": ["Bueno", "Regular", "Malo"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Seguridad ciudadana en las calles",
+          "opciones": ["Buena", "Regular", "Mala"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Ayuda Social que recibe (bonos, subsidios)",
+          "opciones": ["Suficiente", "Insuficiente", "Nada"],
+          "required": true
+        }
+      ]
+    },
+    {
+      "titulo": "Sección 4: Opinión Política",
+      "campos": [
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Aprueba o desaprueba la gestión del Alcalde Gustavo Barquet?",
+          "opciones": ["Aprueba", "Desaprueba", "No opina"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Qué considera que es lo mejor que ha hecho el alcalde Gustavo Barquet?",
+          "opciones": ["Mejoras en infraestructura", "Políticas sociales", "Seguridad", "Otro"],
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Qué considera que es lo peor que ha hecho el alcalde Gustavo Barquet?",
+          "opciones": ["Corrupción", "Falta de inversión", "Desorganización", "Otro"],
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Considera que Babahoyo está mejor o peor desde la llegada de Gustavo Barquet?",
+          "opciones": ["Mejor", "Peor", "Igual"],
+          "required": true
+        },
+        {
+          "tipo": "text",
+          "etiqueta": "Hablemos de la Prefectura",
+          "placeholder": "Ingrese su opinión",
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Conoce usted al Prefecto de Los Ríos?",
+          "opciones": ["Sí", "No"],
+          "required": true
+        },
+        {
+          "tipo": "text",
+          "etiqueta": "Ingrese el nombre del prefecto",
+          "placeholder": "Nombre del prefecto",
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Aprueba o desaprueba la gestión del prefecto?",
+          "opciones": ["Aprueba", "Desaprueba", "No opina"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "Si las elecciones fueran mañana, ¿por quién votaría?",
+          "opciones": ["Candidato A", "Candidato B", "Candidato C", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Con qué partido político se siente identificado?",
+          "opciones": ["Partido A", "Partido B", "Partido C", "Ninguno"],
+          "required": true
+        },
+        {
+          "tipo": "text",
+          "etiqueta": "Forma parte de algún partido político?",
+          "placeholder": "Especifique si participa",
+          "required": false
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Qué cualidades personales debe tener un candidato a la presidencia para que usted le dé su voto?",
+          "opciones": ["Honestidad", "Liderazgo", "Experiencia", "Visión"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Qué cualidades profesionales debe tener un candidato a la presidencia para que usted le dé su voto?",
+          "opciones": ["Educación", "Gestión", "Innovación", "Otro"],
+          "required": true
+        },
+        {
+          "tipo": "radio",
+          "etiqueta": "¿Cuál es la red social que más utiliza?",
+          "opciones": ["Facebook", "Instagram", "Twitter", "Otro"],
+          "required": false
+        }
+      ]
+    }
+  ]
+}
