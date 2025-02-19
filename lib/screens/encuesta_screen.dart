@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class PaginaEncuesta extends StatefulWidget {
   const PaginaEncuesta({super.key});
@@ -18,50 +18,59 @@ class _PaginaEncuestaState extends State<PaginaEncuesta> {
   int _indiceSeccionActual = 0;
 
   @override
-  void initState() {
-    super.initState();
-    _cargarYPrepararEncuesta();
-  }
+@override
+void initState() {
+  super.initState();
+  _cargarEncuestaDesdeAPI();  // ✅ CORRECTO
+}
 
   // Carga el archivo JSON desde assets y crea una copia con "valor": ""
-  Future<void> _cargarYPrepararEncuesta() async {
+  Future<void> _cargarEncuestaDesdeAPI() async {
     try {
-      final String jsonStr =
-          await rootBundle.loadString('assets/data/encuesta.json');
-      final data = jsonDecode(jsonStr);
-      _jsonOriginal = data;
+      final response = await http.get(
+        Uri.parse('https://1.conteosa.com/api/encuestas/'),
+        headers: {"Content-Type": "application/json"},
+      );
 
-      final Map<String, dynamic> copia = {
-        "titulo": data["titulo"],
-        "secciones": [],
-      };
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        _jsonOriginal = data;
 
-      for (var seccion in data["secciones"]) {
-        final Map<String, dynamic> nuevaSeccion = {
-          "titulo": seccion["titulo"],
-          "campos": [],
+        // Crear una copia del JSON con los valores en blanco
+        final Map<String, dynamic> copia = {
+          "titulo": data["titulo"],
+          "secciones": [],
         };
 
-        for (var campo in seccion["campos"]) {
-          final Map<String, dynamic> nuevoCampo = {
-            "tipo": campo["tipo"],
-            "etiqueta": campo["etiqueta"],
-            "placeholder": campo["placeholder"],
-            "required": campo["required"] ?? false,
-            if (campo["opciones"] != null) "opciones": campo["opciones"],
-            "valor": "",
+        for (var seccion in data["secciones"]) {
+          final Map<String, dynamic> nuevaSeccion = {
+            "titulo": seccion["titulo"],
+            "campos": [],
           };
-          nuevaSeccion["campos"].add(nuevoCampo);
+
+          for (var campo in seccion["campos"]) {
+            final Map<String, dynamic> nuevoCampo = {
+              "tipo": campo["tipo"],
+              "etiqueta": campo["etiqueta"],
+              "placeholder": campo["placeholder"],
+              "required": campo["required"] ?? false,
+              if (campo["opciones"] != null) "opciones": campo["opciones"],
+              "valor": "",
+            };
+            nuevaSeccion["campos"].add(nuevoCampo);
+          }
+
+          copia["secciones"].add(nuevaSeccion);
         }
 
-        copia["secciones"].add(nuevaSeccion);
+        setState(() {
+          _jsonConValores = copia;
+        });
+      } else {
+        throw Exception("Error al obtener la encuesta");
       }
-
-      setState(() {
-        _jsonConValores = copia;
-      });
     } catch (e) {
-      print('Error al cargar o parsear el JSON: $e');
+      print('Error al cargar la encuesta desde la API: $e');
       setState(() {
         _jsonConValores = null;
       });

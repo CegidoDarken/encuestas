@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:encuestas/screens/encuesta_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,15 +15,49 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
   bool _isObscure = true; // Para ocultar/mostrar la contraseña
+
+  Future<void> _login() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final response = await http.post(
+      Uri.parse("https://1.conteosa.com/api/token/"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "username": _emailController.text,
+        "password": _passwordController.text
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      await _storage.write(key: "access_token", value: data['access']);
+      await _storage.write(key: "refresh_token", value: data['refresh']);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Inicio de sesión exitoso")),
+      );
+
+      // Navegar a la pantalla de encuestas
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const PaginaEncuesta()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Credenciales incorrectas")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF4B1E59), // Fondo oscuro elegante
+      backgroundColor: const Color(0xFF4B1E59), // Fondo oscuro elegante
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Form(
             key: _formKey,
             child: Column(
@@ -28,25 +65,25 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // Logo o Icono
                 SizedBox(
-                height: 80, // Tamaño del icono
+                  height: 80, // Tamaño del icono
                   child: Image.asset("assets/ADN1.png", fit: BoxFit.contain),
-                   ),
+                ),
 
                 // Texto de Bienvenida
-                Text(
+                const Text(
                   "ENCUESTAS",
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFFFED70D),
+                    color: Color(0xFFFED70D),
                   ),
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   "Inicia sesión para continuar",
                   style: TextStyle(color: Colors.white70),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // Campo de Email
                 TextFormField(
@@ -56,25 +93,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     fillColor: Colors.white10,
                     hintText: "Correo electrónico",
-                    prefixIcon: Icon(Icons.email, color: Colors.white70),
+                    prefixIcon: const Icon(Icons.email, color: Colors.white70),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    hintStyle: TextStyle(color: Colors.white54),
+                    hintStyle: const TextStyle(color: Colors.white54),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Ingresa tu correo';
-                    } /*else if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$')
-                        .hasMatch(value)) {
-                      return 'Correo inválido';
-                    }*/
+                    }
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Campo de Contraseña
                 TextFormField(
@@ -84,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     filled: true,
                     fillColor: Colors.white10,
                     hintText: "Contraseña",
-                    prefixIcon: Icon(Icons.lock, color: Colors.white70),
+                    prefixIcon: const Icon(Icons.lock, color: Colors.white70),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _isObscure ? Icons.visibility : Icons.visibility_off,
@@ -100,17 +134,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none,
                     ),
-                    hintStyle: TextStyle(color: Colors.white54),
+                    hintStyle: const TextStyle(color: Colors.white54),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Ingresa tu contraseña';
-                    } 
+                    }
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Botón de Iniciar Sesión
                 SizedBox(
@@ -123,39 +157,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        if (_emailController.text == "admin" &&
-                            _passwordController.text == "admin") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Inicio de sesión exitoso")),
-                          );
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => PaginaEncuesta()));
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Credenciales incorrectas")),
-                          );
-                        }
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Iniciando sesión...")),
-                        );
-                      }
-                    },
-                    child: Text(
+                    onPressed: _login,
+                    child: const Text(
                       "Iniciar Sesión",
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
 
                 // Enlace "¿Olvidaste tu contraseña?"
                 TextButton(
                   onPressed: () {
                     // Aquí puedes navegar a una pantalla de recuperación de contraseña
                   },
-                  child: Text(
+                  child: const Text(
                     "¿Olvidaste tu contraseña?",
                     style: TextStyle(color: Colors.white70),
                   ),
