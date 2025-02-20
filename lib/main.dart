@@ -14,6 +14,6 @@ class MiApp extends StatelessWidget {
       title: 'Encuesta por Secciones',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: const LoginScreen(),
-    );
+      );
   }
 }
